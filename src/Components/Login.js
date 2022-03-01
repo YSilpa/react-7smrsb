@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import wissenlogo from '../Images/wissenlogo.PNG';
 
 function Login({ setToken }) {
   let navigator = useNavigate();
@@ -77,7 +76,8 @@ function Login({ setToken }) {
     <Form onSubmit={submitHandler}>
       <div className="container">
         <div>
-          <img src={wissenlogo}></img>
+          Login here..
+          {/* <img src={wissenlogo}></img> */}
         </div>
         <div className="login-header">Hello, there, Sign In to Continue</div>
         <Form.Group className="mb-3" controlId="formBasicEmail">
