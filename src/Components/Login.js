@@ -3,8 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
-function Login({ setToken }) {
+function Login({ getToken, setToken }) {
   let navigator = useNavigate();
+  useEffect(() => {
+    if (getToken()) {
+      navigator('../dashboard');
+      return;
+    }
+  }, []);
 
   const initialValues = { email: '', password: '' };
   const adminLogin = { email: 'eve.holt@reqres.in', password: 'cityslicka' };
@@ -32,9 +38,6 @@ function Login({ setToken }) {
     if (!values.password) {
       error.password = 'Password is required';
     }
-    // else if(values.email !== adminLogin.email || values.password !== adminLogin.password){
-    //      error.password = "Email or password entered is incorrect"
-    // }
     return error;
   };
 
@@ -59,7 +62,7 @@ function Login({ setToken }) {
     ).json();
     if (response.token) {
       setToken(response.token);
-      navigator('../list');
+      navigator('../dashboard');
     } else {
       setFormError({ password: response.error });
     }
@@ -67,7 +70,7 @@ function Login({ setToken }) {
 
   useEffect(() => {
     if (Object.keys(formError).length === 0 && isSubmit) {
-      //  navigator("../list")
+      //  navigator("../dashboard")
       aunthenticate(formValues.email, formValues.password);
     }
   }, [formError]);
@@ -76,8 +79,7 @@ function Login({ setToken }) {
     <Form onSubmit={submitHandler}>
       <div className="container">
         <div>
-          Login here..
-          {/* <img src={wissenlogo}></img> */}
+          <img src="https://drive.google.com/uc?export=view&id=1hvRAGrdq0SqFBZApx2--IcuDf-DOmOBH"></img>
         </div>
         <div className="login-header">Hello, there, Sign In to Continue</div>
         <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -102,7 +104,12 @@ function Login({ setToken }) {
           />
           <Form.Text className="text-muted">{formError.password}</Form.Text>
         </Form.Group>
-
+        <Form.Group className="mb-3" controlId="formBasicCheckbox">
+          <Form.Check
+            type="checkbox"
+            label="By creating or logging into an account, you are agreeing with our Terms & Conditions and Privacy Policies"
+          />
+        </Form.Group>
         <Button variant="primary" type="submit">
           Next
         </Button>

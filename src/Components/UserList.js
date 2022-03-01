@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Table from 'react-bootstrap/Table';
 
-const UserList = ({ token }) => {
+const UserList = ({ getToken }) => {
   let navigator = useNavigate();
 
   const [users, setUsers] = useState([]);
@@ -12,7 +12,7 @@ const UserList = ({ token }) => {
     // fetch('data/Users.json', {
     fetch('https://reqres.in/api/unknown', {
       headers: {
-        Authorization: 'Bearer ' + token,
+        Authorization: 'Bearer ' + getToken(),
       },
     })
       .then(function (response) {
@@ -24,11 +24,12 @@ const UserList = ({ token }) => {
   };
 
   const navigateBack = () => {
+    sessionStorage.setItem('token', '');
     navigator('../', { replace: true });
   };
 
   useEffect(() => {
-    if (!token) {
+    if (!getToken()) {
       navigateBack();
     } else {
       getdata();
@@ -60,7 +61,7 @@ const UserList = ({ token }) => {
         </tbody>
       </Table>
       <Button variant="primary" onClick={navigateBack}>
-        Back
+        Logout
       </Button>
     </>
   );
